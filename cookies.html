@@ -1,4 +1,5 @@
 <style>
+/* באנר קוקיז סופית */
 #cookie-banner {
   position: fixed;
   bottom: 20px;
@@ -18,6 +19,14 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+#cookie-banner.show {
+  opacity: 1;
+  pointer-events: all;
 }
 
 #cookie-banner span {
@@ -40,6 +49,21 @@
   background: #005ecb;
 }
 
+.cookie-btn.decline {
+  background: #888888;
+}
+
+.cookie-btn.decline:hover {
+  background: #555555;
+}
+
+.cookie-link {
+  color: #ffffff;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
 @media (max-width: 480px) {
   #cookie-banner {
     font-size: 0.85rem;
@@ -58,33 +82,37 @@
 </style>
 
 <div id="cookie-banner">
-  <span>האתר משתמש בקוקיז פונקציונליים בלבד כדי לשפר את חוויית המשתמש. האם אתה מסכים לשימוש?</span>
+  <span>האתר משתמש בקוקיז פונקציונליים בלבד כדי לשפר את חוויית המשתמש. <a href="/privacy" class="cookie-link">מדיניות פרטיות</a></span>
   <div>
     <button class="cookie-btn" id="cookie-accept">אני מסכים</button>
-    <button class="cookie-btn" id="cookie-decline" style="background:#888888;">אני מסרב</button>
+    <button class="cookie-btn decline" id="cookie-decline">אני מסרב</button>
   </div>
 </div>
 
 <script>
 (function() {
-  // בדיקה אם המשתמש כבר קיבל החלטה
-  if(localStorage.getItem('cookieConsent')) {
-    document.getElementById('cookie-banner').style.display = 'none';
-    return;
+  const banner = document.getElementById('cookie-banner');
+
+  // בדיקה אם כבר נבחרה החלטה
+  if(!localStorage.getItem('cookieConsent')) {
+    // הצגה עם אנימציה
+    setTimeout(() => banner.classList.add('show'), 300);
+  } else {
+    banner.style.display = 'none';
   }
 
-  const banner = document.getElementById('cookie-banner');
-  const acceptBtn = document.getElementById('cookie-accept');
-  const declineBtn = document.getElementById('cookie-decline');
-
-  acceptBtn.addEventListener('click', function() {
+  // כפתור מסכים
+  document.getElementById('cookie-accept').addEventListener('click', function() {
     localStorage.setItem('cookieConsent', 'accepted');
-    banner.style.display = 'none';
+    banner.classList.remove('show');
+    setTimeout(() => banner.style.display = 'none', 500);
   });
 
-  declineBtn.addEventListener('click', function() {
+  // כפתור מסרב
+  document.getElementById('cookie-decline').addEventListener('click', function() {
     localStorage.setItem('cookieConsent', 'declined');
-    banner.style.display = 'none';
+    banner.classList.remove('show');
+    setTimeout(() => banner.style.display = 'none', 500);
   });
 })();
 </script>
