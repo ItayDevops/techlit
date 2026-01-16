@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookie Banner</title>
+<style>
+  body { margin:0; padding:0; font-family: Arial, sans-serif; }
+  #cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #17254A;
+    color: #ffffff;
+    text-align: center;
+    padding: 12px 10px;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+    z-index: 999999;
+    font-size: 16px;
+    line-height: 1.4;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  #cookie-banner span {
+    flex: 1 1 auto;
+    min-width: 200px;
+  }
+  #cookie-banner button {
+    background-color: #0a7cff;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  #cookie-banner button:hover {
+    background-color: #005dc1;
+    transform: scale(1.05);
+  }
+  @media (max-width: 600px) {
+    #cookie-banner {
+      font-size: 14px;
+      padding: 10px;
+    }
+    #cookie-banner button {
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="cookie-banner">
+  <span>האתר משתמש בקוקיז פונקציונליים בלבד.</span>
+  <button id="cookie-ok">הבנתי</button>
+</div>
+
+<script>
+  // אם המשתמש כבר אישר, לא מציגים את הבאנר
+  if (localStorage.getItem('cookieBannerShown') === 'true') {
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+
+  document.getElementById('cookie-ok').addEventListener('click', function(){
+    localStorage.setItem('cookieBannerShown', 'true');
+    const banner = document.getElementById('cookie-banner');
+    banner.style.transition = 'opacity 0.3s';
+    banner.style.opacity = '0';
+    setTimeout(() => banner.remove(), 300);
+  });
+</script>
+
+</body>
+</html>
