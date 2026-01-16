@@ -1,81 +1,90 @@
-<!DOCTYPE html>
-<html lang="he">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cookie Banner</title>
 <style>
-  body { margin:0; padding:0; font-family: Arial, sans-serif; }
+#cookie-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 520px;
+  width: 90%;
+  background: #17254A; /* צבע רקע מותג */
+  color: #ffffff;
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#cookie-banner span {
+  flex: 1 1 60%;
+  margin-right: 10px;
+}
+
+.cookie-btn {
+  background: #0a7cff; /* צבע כפתור מותג */
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 6px;
+  transition: background 0.2s;
+}
+
+.cookie-btn:hover {
+  background: #005ecb;
+}
+
+@media (max-width: 480px) {
   #cookie-banner {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #17254A;
-    color: #ffffff;
+    font-size: 0.85rem;
+    padding: 12px 14px;
+    flex-direction: column;
     text-align: center;
-    padding: 12px 10px;
-    box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
-    z-index: 999999;
-    font-size: 16px;
-    line-height: 1.4;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
   }
   #cookie-banner span {
-    flex: 1 1 auto;
-    min-width: 200px;
+    margin: 0 0 8px 0;
   }
-  #cookie-banner button {
-    background-color: #0a7cff;
-    color: #ffffff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.2s, transform 0.2s;
+  .cookie-btn {
+    margin: 4px 4px 0 4px;
+    width: 45%;
   }
-  #cookie-banner button:hover {
-    background-color: #005dc1;
-    transform: scale(1.05);
-  }
-  @media (max-width: 600px) {
-    #cookie-banner {
-      font-size: 14px;
-      padding: 10px;
-    }
-    #cookie-banner button {
-      padding: 6px 12px;
-      font-size: 14px;
-    }
-  }
+}
 </style>
-</head>
-<body>
 
 <div id="cookie-banner">
-  <span>האתר משתמש בקוקיז פונקציונליים בלבד.</span>
-  <button id="cookie-ok">הבנתי</button>
+  <span>האתר משתמש בקוקיז פונקציונליים בלבד כדי לשפר את חוויית המשתמש. האם אתה מסכים לשימוש?</span>
+  <div>
+    <button class="cookie-btn" id="cookie-accept">אני מסכים</button>
+    <button class="cookie-btn" id="cookie-decline" style="background:#888888;">אני מסרב</button>
+  </div>
 </div>
 
 <script>
-  // אם המשתמש כבר אישר, לא מציגים את הבאנר
-  if (localStorage.getItem('cookieBannerShown') === 'true') {
+(function() {
+  // בדיקה אם המשתמש כבר קיבל החלטה
+  if(localStorage.getItem('cookieConsent')) {
     document.getElementById('cookie-banner').style.display = 'none';
+    return;
   }
 
-  document.getElementById('cookie-ok').addEventListener('click', function(){
-    localStorage.setItem('cookieBannerShown', 'true');
-    const banner = document.getElementById('cookie-banner');
-    banner.style.transition = 'opacity 0.3s';
-    banner.style.opacity = '0';
-    setTimeout(() => banner.remove(), 300);
-  });
-</script>
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('cookie-accept');
+  const declineBtn = document.getElementById('cookie-decline');
 
-</body>
-</html>
+  acceptBtn.addEventListener('click', function() {
+    localStorage.setItem('cookieConsent', 'accepted');
+    banner.style.display = 'none';
+  });
+
+  declineBtn.addEventListener('click', function() {
+    localStorage.setItem('cookieConsent', 'declined');
+    banner.style.display = 'none';
+  });
+})();
+</script>
