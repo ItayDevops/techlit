@@ -1,0 +1,89 @@
+<!-- Cookie Consent Banner -->
+<style>
+/* סגנון באנר */
+#cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100%; /* כדי שלא יגלוש */
+  background-color: #17254A; /* צבע מותג */
+  color: #ffffff; /* טקסט לבן */
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px; /* הקטנתי כדי שלא יגלוש */
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+  z-index: 2147483647;
+  animation: fadeIn 0.5s ease;
+  direction: rtl; /* כתב מימין לשמאל */
+  box-sizing: border-box;
+}
+#cookie-banner p {
+  margin: 0;
+  padding: 0;
+  flex: 1 1 auto;
+  word-break: break-word; /* מונע גלישה בטקסט ארוך */
+}
+#cookie-banner a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+#cookie-banner button {
+  background-color: #ffffff; /* כפתור לבן */
+  border: none;
+  color: #17254A; /* טקסט הכפתור בצבע מותג */
+  padding: 6px 14px;
+  margin-right: 10px; /* הכפתור בצד שמאל */
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+#cookie-banner button:hover {
+  background-color: #e6e6e6;
+}
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+/* מובייל */
+@media (max-width: 600px) {
+  #cookie-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+    padding: 6px 10px;
+  }
+  #cookie-banner button {
+    margin-right: 0;
+  }
+}
+</style>
+
+<div id="cookie-banner">
+  <p>האתר משתמש בקוקיז פונקציונליים בלבד. למידע נוסף, ראה <a href="https://yourdomain.com/privacy" target="_blank">מדיניות הפרטיות שלנו</a>.</p>
+  <button id="cookie-accept">הבנתי</button>
+</div>
+
+<script>
+(function() {
+  const banner = document.getElementById('cookie-banner');
+  const btn = document.getElementById('cookie-accept');
+
+  // בדיקה אם המשתמש כבר סגר את הבאנר
+  if(localStorage.getItem('cookieAccepted') === 'true'){
+    banner.style.display = 'none';
+  }
+
+  btn.addEventListener('click', function(){
+    localStorage.setItem('cookieAccepted','true');
+    banner.style.display = 'none';
+  });
+})();
+</script>
